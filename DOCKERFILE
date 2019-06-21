@@ -1,0 +1,24 @@
+FROM golang:latest as base
+
+WORKDIR /local
+ADD ./delivery .
+
+ENV GOOS=linux
+ENV GOARCH=amd64
+
+RUN cd ./delivery & \
+    go build -x -o ./main
+
+FROM ubuntu:latest
+
+WORKDIR /local
+
+ADD ./init.sh .
+COPY --from=base ./local/main .
+
+RUN apt-get update && \
+    apt-get install ssmtp -y && \
+    apt-get install sharutils -y && \
+    chmod 770 ./init.sh
+
+ENTRYPOINT ["/local/init.sh"]

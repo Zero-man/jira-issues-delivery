@@ -1,0 +1,23 @@
+version: '3.2'
+services:
+  delivery:
+    build:
+      dockerfile: DOCKERFILE
+      context: .
+    command: bash
+    volumes:
+      - ./markdown:/local/markdown
+    environment:
+      JIRA_DOMAIN: "https://your-org.atlassian.net"
+      JIRA_AUTHORIZATION: "username:password"
+      JQL_QUERY: ""
+      FILE_NAME: ""
+      MAIL_ROOT: <user>@placekitten.com
+      MAILHUB: placekitten
+      PORT: 25
+      MAIL_USER: <user>@placekitten.com
+      MAIL_PASSWORD: placekitten
+      MAIL_HOSTNAME: placekitten.com
+      RECIPIENT: <user>@placekitten.com
+    stdin_open: true
+    tty: true
